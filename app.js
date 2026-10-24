@@ -44,10 +44,12 @@ const straightFlushRank = document.querySelector('#straight-flush-rank');
 
 function closeTutorial() {
   tutorialOverlay.hidden = true;
+  updateControls();
 }
 
 function openTutorial() {
   tutorialOverlay.hidden = false;
+  updateControls();
   tutorialStartButton.focus();
 }
 
@@ -327,7 +329,14 @@ function updateControls() {
   callButton.textContent = callAmount > 0 ? `콜 ${callAmount}` : '체크';
   raiseButton.textContent = `레이즈 +40`;
   callButton.disabled = !active || (callAmount > 0 && playerStack === 0);
-  raiseButton.disabled = !active || playerStack <= callAmount;
+  const tutorialOpen = !tutorialOverlay.hidden;
+  raiseButton.disabled = !active || playerStack <= callAmount || tutorialOpen;
+  raiseButton.classList.toggle('is-locked', tutorialOpen && active && playerStack > callAmount);
+  if (raiseButton.classList.contains('is-locked')) {
+    raiseButton.setAttribute('aria-label', '잠김: 튜토리얼을 닫으면 레이즈 가능');
+  } else {
+    raiseButton.removeAttribute('aria-label');
+  }
   foldButton.disabled = !active;
 }
 
@@ -541,6 +550,9 @@ straightFlushRank.addEventListener('auxclick', (event) => {
   if (event.button !== 1) return;
   event.preventDefault();
   activateStraightFlushEasterEgg();
+});
+straightFlushRank.addEventListener('click', () => {
+  if (window.matchMedia('(pointer: coarse)').matches) activateStraightFlushEasterEgg();
 });
 performanceOverlay.addEventListener('click', endPerformance);
 tutorialOpenButton.addEventListener('click', openTutorial);

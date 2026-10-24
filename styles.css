@@ -73,6 +73,7 @@ h1 span { color: #888; }
 .action-buttons { display: flex; gap: 9px; }
 .action-button { min-width: 98px; padding: 12px 15px; border: 2px solid var(--ink); border-radius: 0; color: var(--ink); background: white; box-shadow: 3px 3px 0 var(--ink); font-size: 12px; font-weight: 900; cursor: pointer; transition: transform .08s, box-shadow .08s, background .08s; }
 .action-button:hover:not(:disabled) { background: #eee; }.action-button:active:not(:disabled) { transform: translate(2px, 2px); box-shadow: none; }.action-button:disabled { color: #aaa; border-color: #aaa; box-shadow: 2px 2px 0 #ccc; cursor: not-allowed; }
+.raise-button.is-locked::before { margin-right: 6px; content: "▣"; color: #777; font-size: 12px; }
 .fold-button { color: #555; }.raise-button, .deal-button { color: white; background: var(--ink); }.raise-button:hover:not(:disabled), .deal-button:hover { color: var(--ink); background: #ddd; }
 .bottom { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding-top: 20px; }
 .ranking { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; max-width: 900px; color: #666; font-size: 9px; }
