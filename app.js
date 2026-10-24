@@ -169,6 +169,7 @@ let communityCards = [];
 let playerStreetBet = 0;
 let opponentStreetBet = 0;
 let active = false;
+let firstActionPending = true;
 let showdownRevealed = false;
 let performanceTimer;
 let countdownTimer;
@@ -330,10 +331,13 @@ function updateControls() {
   raiseButton.textContent = `레이즈 +40`;
   callButton.disabled = !active || (callAmount > 0 && playerStack === 0);
   const tutorialOpen = !tutorialOverlay.hidden;
-  raiseButton.disabled = !active || playerStack <= callAmount || tutorialOpen;
-  raiseButton.classList.toggle('is-locked', tutorialOpen && active && playerStack > callAmount);
+  const raiseLocked = tutorialOpen || firstActionPending;
+  raiseButton.disabled = !active || playerStack <= callAmount || raiseLocked;
+  raiseButton.classList.toggle('is-locked', raiseLocked && active && playerStack > callAmount);
   if (raiseButton.classList.contains('is-locked')) {
-    raiseButton.setAttribute('aria-label', '잠김: 튜토리얼을 닫으면 레이즈 가능');
+    raiseButton.setAttribute('aria-label', firstActionPending
+      ? '잠김: 먼저 체크 또는 콜을 선택하세요'
+      : '잠김: 튜토리얼을 닫으면 레이즈 가능');
   } else {
     raiseButton.removeAttribute('aria-label');
   }
@@ -342,6 +346,7 @@ function updateControls() {
 
 function handleCall() {
   if (!active) return;
+  firstActionPending = false;
   const amount = Math.min(toCall(), playerStack);
   playerStack -= amount;
   playerStreetBet += amount;
@@ -362,6 +367,7 @@ function handleRaise() {
   const targetBet = opponentStreetBet + 40;
   const amount = Math.min(targetBet - playerStreetBet, playerStack);
   if (amount <= callAmount) return;
+  firstActionPending = false;
   playerStack -= amount;
   playerStreetBet += amount;
   pot += amount;
@@ -387,6 +393,7 @@ function handleRaise() {
 
 function handleFold() {
   if (!active) return;
+  firstActionPending = false;
   opponentStatus.textContent = 'WINS';
   gameMessage.textContent = '폴드했습니다. 다음 판에서 다시 도전하세요.';
   finishHand('opponent', '플레이어 폴드');
@@ -551,8 +558,10 @@ straightFlushRank.addEventListener('auxclick', (event) => {
   event.preventDefault();
   activateStraightFlushEasterEgg();
 });
-straightFlushRank.addEventListener('click', () => {
-  if (window.matchMedia('(pointer: coarse)').matches) activateStraightFlushEasterEgg();
+straightFlushRank.addEventListener('pointerup', (event) => {
+  if (event.pointerType !== 'touch') return;
+  event.preventDefault();
+  activateStraightFlushEasterEgg();
 });
 performanceOverlay.addEventListener('click', endPerformance);
 tutorialOpenButton.addEventListener('click', openTutorial);
