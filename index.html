@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <title>DOT HOLD'EM — 픽셀 카드룸</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Dot Hold'em 홈">
+          <span class="brand-icon" aria-hidden="true">♠</span>
+          <span>DOT <strong>HOLD'EM</strong><small>PIXEL CARD ROOM</small></span>
+        </a>
+        <button class="tutorial-link" id="tutorial-open" type="button">? 튜토리얼</button>
+        <div class="pixel-dino" aria-label="픽셀 공룡 장식" role="img"></div>
+      </header>
+
+      <section class="intro">
+        <div>
+          <p class="eyebrow">NO MONEY · JUST PIXELS</p>
+          <h1>아수라발발타...</h1>
+        </div>
+        <label class="difficulty-wrap" for="difficulty">
+          <span>상대 난이도</span>
+          <select id="difficulty">
+            <option value="easy">하 · 여유롭게</option>
+            <option value="medium" selected>중 · 균형 있게</option>
+            <option value="hard">상 · 강한 핸드 빈도 높음</option>
+            <option value="expert">최상 · 강한 핸드 빈도 매우 높음</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="table" aria-label="텍사스 홀덤 게임">
+        <div class="table-topline">
+          <span class="table-name"><i></i> PIXEL SALOON <span>TABLE 01</span></span>
+          <span class="round-label" id="round-label">HAND 01 <b>·</b> PREFLOP</span>
+        </div>
+
+        <div class="felt">
+          <div class="felt-stitch" aria-hidden="true"></div>
+          <section class="seat opponent-seat" aria-label="상대방">
+            <div class="avatar opponent-avatar" aria-hidden="true"><span></span></div>
+            <div class="seat-info"><strong>CPU RIVAL</strong><span><b id="opponent-stack">1,000</b> chips</span></div>
+            <div class="hand opponent-hand" id="opponent-hand" aria-label="상대의 카드"></div>
+            <span class="seat-status" id="opponent-status">READY</span>
+          </section>
+
+          <div class="community-zone">
+            <div class="pot-label">POT <strong id="pot">30</strong></div>
+            <div class="community-cards" id="community-cards" aria-label="공용 카드"></div>
+            <div class="street-hint" id="street-hint">홀 카드를 확인하세요</div>
+          </div>
+
+          <section class="seat player-seat" aria-label="내 패">
+            <div class="player-meta">
+              <div class="avatar player-avatar" aria-hidden="true"><span>YOU</span></div>
+              <div class="seat-info"><strong>PLAYER 01</strong><span><b id="player-stack">1,000</b> chips</span></div>
+              <span class="dealer-button">D</span>
+            </div>
+            <div class="hand player-hand" id="player-hand" aria-label="내 카드"></div>
+            <div class="player-hand-label" id="player-hand-label">GOOD LUCK!</div>
+          </section>
+          <div class="toast" id="toast" role="status" aria-live="polite"></div>
+        </div>
+
+        <div class="controls">
+          <div class="game-message" id="game-message" aria-live="polite">카드를 나눠주는 중…</div>
+          <div class="action-buttons">
+            <button class="action-button fold-button" id="fold-button" type="button">폴드</button>
+            <button class="action-button call-button" id="call-button" type="button">체크</button>
+            <button class="action-button raise-button" id="raise-button" type="button">레이즈 +40</button>
+            <button class="action-button deal-button" id="deal-button" type="button" hidden>다음 판</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="bottom">
+        <div class="ranking">
+          <span class="ranking-title">HAND RANK</span>
+          <span>하이 카드</span><i></i><span>원 페어</span><i></i><span>투 페어</span><i></i><span>트리플</span><i></i><span>스트레이트</span><i></i><span>플러시</span><i></i><span>풀하우스</span><i></i><span>포카드</span><i></i><button class="rank-easter-egg" id="straight-flush-rank" type="button" title="보조 클릭하면 비밀 패가 열립니다">스트레이트 플러시</button>
+        </div>
+        <p>이 페이지는 오락용 포커 시뮬레이션입니다. 칩은 가상 점수이며 실제 돈이나 현금 가치를 갖지 않습니다.</p>
+      </footer>
+    </main>
+    <div class="celebration-layer" id="celebration-layer" aria-hidden="true"></div>
+    <div class="performance-overlay" id="performance-overlay" role="dialog" aria-modal="true" aria-label="스트레이트 플러시 축하 공연" hidden>
+      <div class="performance-scene">
+        <div class="performance-lights" aria-hidden="true"></div>
+        <div class="performance-title"><span>♠ PIXEL DANCE SHOW ♠</span><strong>STRAIGHT FLUSH!</strong><small>당신을 위한 축하 무대</small></div>
+        <div class="performance-cheer" aria-hidden="true">정말 멋진 패야! 오늘의 주인공은 너야!</div>
+        <div class="performance-stage" aria-hidden="true">
+          <div class="spotlight spotlight-left"></div><div class="spotlight spotlight-right"></div>
+          <div class="disco-ball"><span></span></div>
+          <div class="pixel-performer performer-left mascot-bunny" aria-label="춤추는 토끼">
+            <svg viewBox="0 0 96 128" role="img">
+              <path class="ear ear-left" d="M30 37 20 4 39 29M64 37 76 4 57 29" />
+              <path class="ear-inner" d="m27 26-3-13 8 11m34 2 5-13-9 12" />
+              <path class="head" d="M19 39 26 27 38 23 58 23 70 29 77 42 76 63 68 74 57 79 38 79 26 74 19 62Z" />
+              <path class="face-mark" d="M33 51h5m20 0h5M43 59h10m-5 0v4" />
+              <path class="body" d="M31 80 41 75h16l10 5 8 18-10 5-4-8 4 24H33l4-24-5 8-10-5Z" />
+              <path class="arm" d="m30 84-15 5-7-11m57 6 15-8 7 11" />
+              <path class="foot" d="M33 113h15v10H27v-5m21-5h15v10H49v-5" />
+              <path class="bow" d="m49 77-10-6-1 10 10 3 10-3-1-10Z" />
+              <path class="sparkle" d="M7 44v-8m-4 4h8m71 41v-8m-4 4h8" />
+            </svg>
+          </div>
+          <div class="pixel-performer performer-center mascot-bear" aria-label="춤추는 곰">
+            <svg viewBox="0 0 112 132" role="img">
+              <path class="ear" d="M25 28a12 12 0 1 1 24 0m14 0a12 12 0 1 1 24 0" />
+              <path class="ear-inner" d="M31 27a6 6 0 1 1 12 0m26 0a6 6 0 1 1 12 0" />
+              <path class="head" d="M22 39 31 29h50l9 10 5 17-5 18-13 10H35L22 74l-5-18Z" />
+              <path class="face-mark" d="M37 53h5m28 0h5m-26 9 7-4 7 4-7 7Z" />
+              <path class="body" d="M34 82 46 77h20l12 5 9 29-12 4-7-16v24H43v-24l-7 16-12-4Z" />
+              <path class="arm" d="m34 87-17 7-7-11m68 4 17 7 7-11" />
+              <path class="foot" d="M43 116h16v10H35v-5m24-5h16v10H59v-5" />
+              <path class="bow" d="m55 80-9-6-3 8 12 5 12-5-3-8Z" />
+              <path class="sparkle" d="M8 50v-9m-4 5h9m87 30v-9m-4 5h9" />
+            </svg>
+          </div>
+          <div class="pixel-performer performer-right mascot-cat" aria-label="춤추는 고양이">
+            <svg viewBox="0 0 100 128" role="img">
+              <path class="ear" d="m20 39 3-30 25 19m8 0L81 9l2 30" />
+              <path class="ear-inner" d="m29 25 1-10 11 9m20 0 11-9 1 10" />
+              <path class="head" d="M18 40 27 29 40 26h20l13 3 9 11v23L73 75l-13 6H40l-13-6-9-12Z" />
+              <path class="face-mark" d="M32 51h5m27 0h5m-29 10 9 3m12-3-9 3m-5 2h5" />
+              <path class="body" d="M33 82 43 77h16l10 5 7 17-10 5-5-8 5 25H34l5-25-5 8-10-5Z" />
+              <path class="arm" d="m32 85-16 8-8-8m62 0 16 8 8-8" />
+              <path class="foot" d="M34 114h15v10H27v-5m22-5h15v10H49v-5" />
+              <path class="bow" d="m50 78-9-8-2 10 11 5 11-5-2-10Z" />
+              <path class="sparkle" d="M7 39v-8m-4 4h8m75 42v-8m-4 4h8" />
+            </svg>
+          </div>
+          <div class="stage-floor"></div>
+        </div>
+        <div class="performance-bottom"><span>♠ STRAIGHT FLUSH ♠</span><span>SHOW ENDS IN <b id="show-countdown">10</b>s</span></div>
+        <div class="performance-skip-hint">화면을 클릭하면 공연을 건너뛸 수 있어요</div>
+      </div>
+    </div>
+    <div class="tutorial-overlay" id="tutorial-overlay">
+      <section class="tutorial-dialog" role="dialog" aria-modal="true" aria-labelledby="tutorial-title" aria-describedby="tutorial-intro">
+        <div class="tutorial-heading">
+          <div>
+            <p class="eyebrow">QUICK START · TEXAS HOLD'EM</p>
+            <h2 id="tutorial-title">처음이라면, 여기부터!</h2>
+          </div>
+          <span class="tutorial-mark" aria-hidden="true">♠</span>
+        </div>
+        <p class="tutorial-intro" id="tutorial-intro">홀덤은 내 카드와 테이블의 공용 카드로 가장 강한 5장 조합을 만드는 게임이에요.</p>
+        <div class="tutorial-grid">
+          <article class="tutorial-card">
+            <div class="tutorial-illustration card-illustration" aria-hidden="true">
+              <span class="mini-card"><b>A</b><i>♠</i></span><span class="mini-card"><b>K</b><i>♥</i></span>
+              <span class="diagram-plus">+</span>
+              <span class="mini-board"><i>♣</i><i>♦</i><i>♠</i><i>♥</i><i>♣</i></span>
+            </div>
+            <div class="tutorial-copy"><span class="tutorial-number">01</span><h3>카드와 승리 조건</h3><p>각자 홀 카드 2장을 받고, 공용 카드 5장이 차례로 공개돼요. 내 카드와 공용 카드로 가장 좋은 5장 패를 만들면 이겨요.</p></div>
+          </article>
+          <article class="tutorial-card">
+            <div class="tutorial-illustration action-illustration" aria-hidden="true">
+              <span>폴드</span><span>체크 / 콜</span><span>레이즈</span>
+            </div>
+            <div class="tutorial-copy"><span class="tutorial-number">02</span><h3>내 행동 고르기</h3><p><b>체크</b>는 추가 베팅 없이 넘기기, <b>콜</b>은 상대 베팅 맞추기, <b>레이즈</b>는 베팅 올리기, <b>폴드</b>는 이번 판 포기예요.</p></div>
+          </article>
+          <article class="tutorial-card">
+            <div class="tutorial-illustration pot-illustration" aria-hidden="true">
+              <span class="mini-pot">POT <b>30</b></span><span class="mini-chips"><i></i><i></i><i></i></span><span class="mini-stack">내 칩 <b>1,000</b></span>
+            </div>
+            <div class="tutorial-copy"><span class="tutorial-number">03</span><h3>화면 읽기</h3><p><b>POT</b>은 이번 판에 모인 칩, <b>chips</b>는 각자의 보유 칩이에요. 가운데 카드가 공용 카드, 내 앞의 두 장이 내 카드예요.</p></div>
+          </article>
+          <article class="tutorial-card">
+            <div class="tutorial-illustration rounds-illustration" aria-hidden="true">
+              <span>홀 카드</span><i>→</i><span>플랍<br><b>3장</b></span><i>→</i><span>턴<br><b>4장</b></span><i>→</i><span>리버<br><b>5장</b></span>
+            </div>
+            <div class="tutorial-copy"><span class="tutorial-number">04</span><h3>라운드와 난이도</h3><p><b>HAND</b>는 판 번호, <b>PREFLOP / FLOP / TURN / RIVER</b>는 진행 단계예요. 난이도가 높을수록 상대가 강한 시작 패를 받을 확률이 높아요.</p></div>
+          </article>
+        </div>
+        <p class="tutorial-note">칩은 가상 점수이며 실제 돈이나 현금 가치는 없습니다.</p>
+        <div class="tutorial-actions">
+          <button class="tutorial-start" id="tutorial-start" type="button">알겠어요, 게임 시작</button>
+        </div>
+      </section>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
